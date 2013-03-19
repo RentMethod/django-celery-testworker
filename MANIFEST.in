@@ -1,0 +1,2 @@
+include AUTHORS README INSTALL LICENSE
+recursive-include djcelery-testworker *.py

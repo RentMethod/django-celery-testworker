@@ -1,0 +1,14 @@
+Installation
+=============
+
+Clone the latest version of ``django-celery-testworker`` from GitHub::
+
+    $ git clone git://github.com/RentMethod/django-celery-testworker.git
+
+You can install it by doing the following,::
+
+    $ tar xvfz django-celery-testworker-0.0.0.tar.gz
+    $ cd django-celery-testworker-0.0.0
+    # python setup.py install # as root
+
+
