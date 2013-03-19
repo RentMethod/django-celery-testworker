@@ -11,7 +11,7 @@ setup(
     author_email='willem.bult@gmail.com',
     packages=find_packages(),
     url='http://github.com/RentMethod/django-celery-testworker',
-    license='BSD licence, see LICENCE',
+    license='BSD license, see LICENSE',
     description='Test functions to use with Django for tests that depend on the execution of Celery tasks',
     long_description=codecs.open('README.md', 'r', 'utf-8').read(),
     zip_safe=False,
