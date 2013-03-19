@@ -34,10 +34,11 @@ To automatically launch a worker in the background while running an integration 
 
 ```
 # terrain.py
-from lettuce import *
-from splinter.browser import Browser
 from django.test.simple import DjangoTestSuiteRunner
 from django.test.utils import setup_test_environment, teardown_test_environment
+from lettuce import *
+from splinter.browser import Browser
+from djcelery_testworker import run_celery_test_worker
 
 @before.harvest
 def initial_setup(server):
@@ -49,8 +50,7 @@ def initial_setup(server):
 
     # run a celery worker
     print "Starting Celery worker..."
-    from celerytest import run_celery_test_daemon
-    world.celeryd = run_celery_test_daemon()
+    world.celeryd = run_celery_test_worker()
 
     # run browser for selenium tests
     world.browser = Browser()
