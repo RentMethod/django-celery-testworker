@@ -35,4 +35,4 @@ class Command(CeleryCommand):
             conn = connections[alias]
             self.switch_to_test_db(conn)
 
-        execute_from_command_line(argv[:1] + ['celery', 'worker'] + argv[2:])
+        execute_from_command_line(argv[:1] + ['celery', 'worker', '--discard'] + argv[2:])
