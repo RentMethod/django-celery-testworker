@@ -2,6 +2,9 @@ from django.core.management.base import BaseCommand, CommandError
 from django.core.management import execute_from_command_line
 
 from djcelery.management.base import CeleryCommand
+
+from django.conf import settings
+import os
     
 class Command(CeleryCommand):
     args = ''
@@ -35,4 +38,10 @@ class Command(CeleryCommand):
             conn = connections[alias]
             self.switch_to_test_db(conn)
 
-        execute_from_command_line(argv[:1] + ['celery', 'worker', '--discard'] + argv[2:])
+        options = ['celery', 'worker', '--discard']
+
+        # need to set this here so the server also uses this broker to send tasks to
+        if hasattr(settings, "CELERY_TEST_BROKER"):
+            options.append('--broker=' + settings.CELERY_TEST_BROKER)
+
+        execute_from_command_line(argv[:1] + options + argv[2:])

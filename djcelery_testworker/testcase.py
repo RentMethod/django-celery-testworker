@@ -2,6 +2,7 @@ import os
 import threading
 
 from django.test import TransactionTestCase
+from django.conf import settings
 from . import run_celery_test_worker
 
 class CeleryWorkerThread(threading.Thread):
@@ -9,9 +10,10 @@ class CeleryWorkerThread(threading.Thread):
     Thread for running a live celery worker in the background
     """
 
-    def __init__(self):
+    def __init__(self, options=[]):
         self.error = None
         self.is_ready = threading.Event()
+        self.options = options
         
         super(CeleryWorkerThread, self).__init__()
 
@@ -21,7 +23,7 @@ class CeleryWorkerThread(threading.Thread):
         """
         try:
             # Start the worker
-            self.process = run_celery_test_worker()
+            self.process = run_celery_test_worker(self.options)
             
         except Exception as e:
             # Set the error and fire signal
@@ -32,6 +34,7 @@ class CeleryWorkerThread(threading.Thread):
         # Signal ready and wait for worker process to terminate
         self.is_ready.set()
         self.process.wait()
+
 
     def join(self, timeout=None):
         """
@@ -62,6 +65,11 @@ class CeleryWorkerTestCase(TransactionTestCase):
 
     @classmethod
     def setUpClass(cls):
+        # need to set this here so the server also uses this broker to send tasks to
+        if hasattr(settings, "CELERY_TEST_BROKER"):
+            settings.BROKER_URL = settings.CELERY_TEST_BROKER
+            os.environ['CELERY_BROKER_URL'] = settings.CELERY_TEST_BROKER
+
         cls.worker_thread = CeleryWorkerThread()
         cls.worker_thread.daemon = True
         cls.worker_thread.start()
