@@ -9,7 +9,7 @@ Using django-celery-testworker
 
 To enable ``django-celery-testworker`` for your project you need to add ``djcelery-testworker`` to ``INSTALLED_APPS``:
 
-    INSTALLED_APPS += ("djcelery-testworker", )
+    INSTALLED_APPS += ("djcelery_testworker", )
 
 To run a Celery worker that operates on your test databases, run with Django's management command:
 
