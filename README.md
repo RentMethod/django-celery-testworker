@@ -1,3 +1,6 @@
+<p color="#df5000"><strong>NOTE: This is no longer maintained and has been replaced by the more generic <a href="https://github.com/RentMethod/celerytest">celerytest</a>.</strong></p>
+
+
 django-celery-testworker - Testing with Django and Celery
 =========================================================
 Writing tests for Django projects that depend on Celery tasks is problematic. The test that queues the task typically operates on the test database (by virtue of Django's test framework), whereas the Celery worker, using the <a href="https://github.com/celery/django-celery">django-celery</a> integration, operates on the main database. When using the database backend for Celery, tasks will not even get picked up by the worker to begin with.
